@@ -94,9 +94,8 @@
 				/* Model */
 
 				var mtlLoader = new THREE.MTLLoader();
-				//mtlLoader.setBaseUrl('assets/');
 				mtlLoader.setPath("assets/");
-				mtlLoader.load("assets/female-croupier-2013-03-26.mtl", function(materials) {
+				mtlLoader.load("female-croupier-2013-03-26.mtl", function(materials) {
 					materials.preload();
 
 					materials.materials.default.map.magFilter = THREE.NearestFilter;
@@ -104,8 +103,7 @@
 
 					var objLoader = new THREE.OBJLoader();
 					objLoader.setMaterials(materials);
-					objLoader.setPath("assets/");
-					objLoader.load("female-croupier-2013-03-26.obj", function(object) {
+					objLoader.load("assets/female-croupier-2013-03-26.obj", function(object) {
 						scene.add(object);
 					});
 				});
@@ -113,7 +111,7 @@
 				var geometry = new THREE.BoxGeometry();
 				var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 				var cube = new THREE.Mesh(geometry, material);
-				scene.add(cube);
+				//scene.add(cube);
 
 				/* Renderer */
 
