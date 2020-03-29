@@ -19,38 +19,19 @@
 				padding: 0;
 				background: hsl(0, 0%, 10%);
 			}
-
 			p {
 				margin: 0;
 				padding: 0;
 			}
-
-			.left,
-			.right {
-				position: absolute;
-				color: #fff;
-				font-family: Geneva, sans-serif;
-			}
-
-			.left {
-				bottom: 1em;
-				left: 1em;
-				text-align: left;
-			}
-
-			.right {
-				top: 0;
-				right: 0;
-				text-align: right;
-			}
-
-			a {
-				color: #f58231;
+			canvas {
+				height: 100%;
+				width: 100%;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="test"></div>
+		<button>Start Benchmark</button>
 
 		<script>
 			if (!THREE.WEBGL.isWebGLAvailable) {
@@ -78,6 +59,10 @@
 
 				scene = new THREE.Scene();
 				lighting = false;
+
+				/* Debug */
+				var axesHelper = new THREE.AxesHelper(5);
+				scene.add(axesHelper);
 
 				ambient = new THREE.AmbientLight(0xffffff, 1.0);
 				scene.add(ambient);
@@ -167,31 +152,14 @@
 				renderer.render(scene, camera);
 			}
 
-			var elapsedTime = 0;
-			var frameCount = 0;
-			var lastTime = 0;
-
-			function drawScene() {
-				// draw scene here
-
-				var now = new Date().getTime();
-
-				frameCount++;
-				elapsedTime += now - lastTime;
-
-				lastTime = now;
-
-				if (elapsedTime >= 1000) {
-					fps = frameCount;
-					frameCount = 0;
-					elapsedTime -= 1000;
-
-					document.getElementById("test").innerHTML = fps;
-				}
-			}
-
-			lastTime = new Date().getTime();
-			setInterval(drawScene, 33);
+			var prev = 0;
+			requestAnimationFrame(function(now) {
+				var delta = now - prev;
+				var fps = 1000 / delta;
+				console.log(fps);
+				prev = now;
+				// render logic
+			});
 		</script>
 	</body>
 </html>
