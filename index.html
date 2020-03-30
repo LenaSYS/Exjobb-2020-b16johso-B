@@ -11,6 +11,7 @@
 		<script src="OrbitControls.js"></script>
 		<script src="OBJLoader.js"></script>
 		<script src="MTLLoader.js"></script>
+		<script src="fpsmeter.js"></script>
 
 		<style>
 			body {
@@ -42,6 +43,8 @@
 
 			var camera, controls, scene, renderer;
 			var lighting, ambient, keyLight, fillLight, backLight;
+
+			var meter = new FPSMeter({ left: "auto", right: "5px" });
 
 			init();
 			animate();
@@ -141,25 +144,18 @@
 			}
 
 			function animate() {
+				meter.tickStart();
 				requestAnimationFrame(animate);
 
 				controls.update();
 
 				render();
+				meter.tick();
 			}
 
 			function render() {
 				renderer.render(scene, camera);
 			}
-
-			var prev = 0;
-			requestAnimationFrame(function(now) {
-				var delta = now - prev;
-				var fps = 1000 / delta;
-				console.log(fps);
-				prev = now;
-				// render logic
-			});
 		</script>
 	</body>
 </html>
