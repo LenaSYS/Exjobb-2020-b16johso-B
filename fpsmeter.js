@@ -5,8 +5,8 @@
  * Licensed under the MIT license.
  * http://opensource.org/licenses/MIT
  */
-;(function (w, undefined) {
-	'use strict';
+(function (w, undefined) {
+	"use strict";
 
 	/**
 	 * Create a new element.
@@ -48,8 +48,13 @@
 			return String(value);
 		}
 
-		if (typeof value === 'object' || typeof value === 'function') {
-			return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase() || 'object';
+		if (typeof value === "object" || typeof value === "function") {
+			return (
+				Object.prototype.toString
+					.call(value)
+					.match(/\s([a-z]+)/i)[1]
+					.toLowerCase() || "object"
+			);
 		}
 
 		return typeof value;
@@ -64,7 +69,7 @@
 	 * @return {Integer} Array index or -1 when not found.
 	 */
 	function inArray(value, array) {
-		if (type(array) !== 'array') {
+		if (type(array) !== "array") {
 			return -1;
 		}
 		if (array.indexOf) {
@@ -91,11 +96,11 @@
 		for (var key in args[1]) {
 			if (args[1].hasOwnProperty(key)) {
 				switch (type(args[1][key])) {
-					case 'object':
+					case "object":
 						args[0][key] = extend({}, args[0][key], args[1][key]);
 						break;
 
-					case 'array':
+					case "array":
 						args[0][key] = args[1][key].slice(0);
 						break;
 
@@ -104,9 +109,7 @@
 				}
 			}
 		}
-		return args.length > 2 ?
-			extend.apply(null, [args[0]].concat(Array.prototype.slice.call(args, 2))) :
-			args[0];
+		return args.length > 2 ? extend.apply(null, [args[0]].concat(Array.prototype.slice.call(args, 2))) : args[0];
 	}
 
 	/**
@@ -127,7 +130,7 @@
 		}
 
 		if (v === 0) {
-			return '#000';
+			return "#000";
 		} else {
 			min = 2 * l - v;
 			sv = (v - min) / v;
@@ -160,7 +163,7 @@
 				g = min;
 				b = v - vsf;
 			}
-			return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+			return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 		}
 	}
 
@@ -169,7 +172,7 @@
 	 */
 	function componentToHex(c) {
 		c = Math.round(c * 255).toString(16);
-		return c.length === 1 ? '0' + c : c;
+		return c.length === 1 ? "0" + c : c;
 	}
 
 	/**
@@ -184,9 +187,9 @@
 	 */
 	function listener(element, eventName, handler, remove) {
 		if (element.addEventListener) {
-			element[remove ? 'removeEventListener' : 'addEventListener'](eventName, handler, false);
+			element[remove ? "removeEventListener" : "addEventListener"](eventName, handler, false);
 		} else if (element.attachEvent) {
-			element[remove ? 'detachEvent' : 'attachEvent']('on' + eventName, handler);
+			element[remove ? "detachEvent" : "attachEvent"]("on" + eventName, handler);
 		}
 	}
 
@@ -195,27 +198,27 @@
 	(function () {
 		var perf = w.performance;
 		if (perf && (perf.now || perf.webkitNow)) {
-			var perfNow = perf.now ? 'now' : 'webkitNow';
+			var perfNow = perf.now ? "now" : "webkitNow";
 			getTime = perf[perfNow].bind(perf);
 		} else {
 			getTime = function () {
 				return +new Date();
 			};
 		}
-	}());
+	})();
 
 	// Local WindowAnimationTiming interface polyfill
 	var cAF = w.cancelAnimationFrame || w.cancelRequestAnimationFrame;
 	var rAF = w.requestAnimationFrame;
 	(function () {
-		var vendors = ['moz', 'webkit', 'o'];
+		var vendors = ["moz", "webkit", "o"];
 		var lastTime = 0;
 
 		// For a more accurate WindowAnimationTiming interface implementation, ditch the native
 		// requestAnimationFrame when cancelAnimationFrame is not present (older versions of Firefox)
 		for (var i = 0, l = vendors.length; i < l && !cAF; ++i) {
-			cAF = w[vendors[i]+'CancelAnimationFrame'] || w[vendors[i]+'CancelRequestAnimationFrame'];
-			rAF = cAF && w[vendors[i]+'RequestAnimationFrame'];
+			cAF = w[vendors[i] + "CancelAnimationFrame"] || w[vendors[i] + "CancelRequestAnimationFrame"];
+			rAF = cAF && w[vendors[i] + "RequestAnimationFrame"];
 		}
 
 		if (!cAF) {
@@ -223,17 +226,19 @@
 				var currTime = getTime();
 				var timeToCall = Math.max(0, 16 - (currTime - lastTime));
 				lastTime = currTime + timeToCall;
-				return w.setTimeout(function () { callback(currTime + timeToCall); }, timeToCall);
+				return w.setTimeout(function () {
+					callback(currTime + timeToCall);
+				}, timeToCall);
 			};
 
 			cAF = function (id) {
 				clearTimeout(id);
 			};
 		}
-	}());
+	})();
 
 	// Property name for assigning element text content
-	var textProp = type(document.createElement('div').textContent) === 'string' ? 'textContent' : 'innerText';
+	var textProp = type(document.createElement("div").textContent) === "string" ? "textContent" : "innerText";
 
 	/**
 	 * FPSMeter class.
@@ -243,7 +248,7 @@
 	 */
 	function FPSMeter(anchor, options) {
 		// Optional arguments
-		if (type(anchor) === 'object' && anchor.nodeType === undefined) {
+		if (type(anchor) === "object" && anchor.nodeType === undefined) {
 			options = anchor;
 			anchor = document.body;
 		}
@@ -271,7 +276,7 @@
 		var durationHistory = [];
 
 		var frameID, renderID;
-		var showFps = o.show === 'fps';
+		var showFps = o.show === "fps";
 		var graphHeight, count, i, j;
 
 		// Exposed properties
@@ -342,7 +347,7 @@
 		 */
 		self.set = function (name, value) {
 			o[name] = value;
-			showFps = o.show === 'fps';
+			showFps = o.show === "fps";
 
 			// Rebuild or reposition elements when specific option has been updated
 			if (inArray(name, rebuilders) !== -1) {
@@ -360,7 +365,7 @@
 		 * @return {Object} FPSMeter instance.
 		 */
 		self.showDuration = function () {
-			self.set('show', 'ms');
+			self.set("show", "ms");
 			return self;
 		};
 
@@ -370,7 +375,7 @@
 		 * @return {Object} FPSMeter instance.
 		 */
 		self.showFps = function () {
-			self.set('show', 'fps');
+			self.set("show", "fps");
 			return self;
 		};
 
@@ -380,7 +385,7 @@
 		 * @return {Object} FPSMeter instance.
 		 */
 		self.toggle = function () {
-			self.set('show', showFps ? 'ms' : 'fps');
+			self.set("show", showFps ? "ms" : "fps");
 			return self;
 		};
 
@@ -391,7 +396,7 @@
 		 */
 		self.hide = function () {
 			self.pause();
-			el.container.style.display = 'none';
+			el.container.style.display = "none";
 			return self;
 		};
 
@@ -402,7 +407,7 @@
 		 */
 		self.show = function () {
 			self.resume();
-			el.container.style.display = 'block';
+			el.container.style.display = "block";
 			return self;
 		};
 
@@ -412,9 +417,9 @@
 		 * @return {Void}
 		 */
 		function historyTick() {
-			for (i = o.history; i--;) {
-				fpsHistory[i] = i === 0 ? self.fps : fpsHistory[i-1];
-				durationHistory[i] = i === 0 ? self.duration : durationHistory[i-1];
+			for (i = o.history; i--; ) {
+				fpsHistory[i] = i === 0 ? self.fps : fpsHistory[i - 1];
+				durationHistory[i] = i === 0 ? self.duration : durationHistory[i - 1];
 			}
 		}
 
@@ -429,7 +434,7 @@
 		 * @return {Integer}
 		 */
 		function getHeat(heatmap, value, min, max) {
-			return heatmaps[0|heatmap][Math.round(Math.min((value - min) / (max - min) * heatDepth, heatDepth))];
+			return heatmaps[0 | heatmap][Math.round(Math.min(((value - min) / (max - min)) * heatDepth, heatDepth))];
 		}
 
 		/**
@@ -441,11 +446,11 @@
 			// Update legend only when changed
 			if (el.legend.fps !== showFps) {
 				el.legend.fps = showFps;
-				el.legend[textProp] = showFps ? 'FPS' : 'ms';
+				el.legend[textProp] = showFps ? "FPS" : "ms";
 			}
 			// Update counter with a nicely formated & readable number
 			count = showFps ? self.fps : self.duration;
-			el.count[textProp] = count > 999 ? '999+' : count.toFixed(count > 99 ? 0 : o.decimals);
+			el.count[textProp] = count.toFixed(count > 99 ? 0 : o.decimals);
 		}
 
 		/**
@@ -457,7 +462,7 @@
 			time = getTime();
 			// If renderer stopped reporting, do a simulated drop to 0 fps
 			if (lastLoop < time - o.threshold) {
-				self.fps -= self.fps / Math.max(1, o.smoothing * 60 / o.interval);
+				self.fps -= self.fps / Math.max(1, (o.smoothing * 60) / o.interval);
 				self.duration = 1000 / self.fps;
 			}
 
@@ -467,18 +472,16 @@
 			// Apply heat to elements
 			if (o.heat) {
 				if (heating.length) {
-					for (i = heating.length; i--;) {
-						heating[i].el.style[theme[heating[i].name].heatOn] = showFps ?
-							getHeat(theme[heating[i].name].heatmap, self.fps, 0, o.maxFps) :
-							getHeat(theme[heating[i].name].heatmap, self.duration, o.threshold, 0);
+					for (i = heating.length; i--; ) {
+						heating[i].el.style[theme[heating[i].name].heatOn] = showFps
+							? getHeat(theme[heating[i].name].heatmap, self.fps, 0, o.maxFps)
+							: getHeat(theme[heating[i].name].heatmap, self.duration, o.threshold, 0);
 					}
 				}
 
 				if (el.graph && theme.column.heatOn) {
-					for (i = cols.length; i--;) {
-						cols[i].style[theme.column.heatOn] = showFps ?
-							getHeat(theme.column.heatmap, fpsHistory[i], 0, o.maxFps) :
-							getHeat(theme.column.heatmap, durationHistory[i], o.threshold, 0);
+					for (i = cols.length; i--; ) {
+						cols[i].style[theme.column.heatOn] = showFps ? getHeat(theme.column.heatmap, fpsHistory[i], 0, o.maxFps) : getHeat(theme.column.heatmap, durationHistory[i], o.threshold, 0);
 					}
 				}
 			}
@@ -486,10 +489,14 @@
 			// Update graph columns height
 			if (el.graph) {
 				for (j = 0; j < o.history; j++) {
-					cols[j].style.height = (showFps ?
-						(fpsHistory[j] ? Math.round(graphHeight / o.maxFps * Math.min(fpsHistory[j], o.maxFps)) : 0) :
-						(durationHistory[j] ? Math.round(graphHeight / o.threshold * Math.min(durationHistory[j], o.threshold)) : 0)
-					) + 'px';
+					cols[j].style.height =
+						(showFps
+							? fpsHistory[j]
+								? Math.round((graphHeight / o.maxFps) * Math.min(fpsHistory[j], o.maxFps))
+								: 0
+							: durationHistory[j]
+							? Math.round((graphHeight / o.threshold) * Math.min(durationHistory[j], o.threshold))
+							: 0) + "px";
 				}
 			}
 		}
@@ -566,7 +573,7 @@
 				for (j = 0; j < theme.heatmaps.length; j++) {
 					heatmaps[j] = [];
 					for (i = 0; i <= heatDepth; i++) {
-						heatmaps[j][i] = hslToHex(0.33 / heatDepth * i, theme.heatmaps[j].saturation, theme.heatmaps[j].lightness);
+						heatmaps[j][i] = hslToHex((0.33 / heatDepth) * i, theme.heatmaps[j].saturation, theme.heatmaps[j].lightness);
 					}
 				}
 				theme.compiledHeatmaps = heatmaps;
@@ -588,10 +595,10 @@
 			setTheme();
 
 			// Create elements
-			el.container = applyTheme(newEl('div'), theme.container);
-			el.count = el.container.appendChild(applyTheme(newEl('div'), theme.count));
-			el.legend = el.container.appendChild(applyTheme(newEl('div'), theme.legend));
-			el.graph = o.graph ? el.container.appendChild(applyTheme(newEl('div'), theme.graph)) : 0;
+			el.container = applyTheme(newEl("div"), theme.container);
+			el.count = el.container.appendChild(applyTheme(newEl("div"), theme.count));
+			el.legend = el.container.appendChild(applyTheme(newEl("div"), theme.legend));
+			el.graph = o.graph ? el.container.appendChild(applyTheme(newEl("div"), theme.graph)) : 0;
 
 			// Add elements to heating array
 			heating.length = 0;
@@ -599,7 +606,7 @@
 				if (el[key] && theme[key].heatOn) {
 					heating.push({
 						name: key,
-						el: el[key]
+						el: el[key],
 					});
 				}
 			}
@@ -608,16 +615,16 @@
 			cols.length = 0;
 			if (el.graph) {
 				// Create graph
-				el.graph.style.width = (o.history * theme.column.width + (o.history - 1) * theme.column.spacing) + 'px';
+				el.graph.style.width = o.history * theme.column.width + (o.history - 1) * theme.column.spacing + "px";
 
 				// Add columns
 				for (i = 0; i < o.history; i++) {
-					cols[i] = el.graph.appendChild(applyTheme(newEl('div'), theme.column));
-					cols[i].style.position = 'absolute';
+					cols[i] = el.graph.appendChild(applyTheme(newEl("div"), theme.column));
+					cols[i].style.position = "absolute";
 					cols[i].style.bottom = 0;
-					cols[i].style.right = (i * theme.column.width + i * theme.column.spacing) + 'px';
-					cols[i].style.width = theme.column.width + 'px';
-					cols[i].style.height = '0px';
+					cols[i].style.right = i * theme.column.width + i * theme.column.spacing + "px";
+					cols[i].style.width = theme.column.width + "px";
+					cols[i].style.height = "0px";
 				}
 			}
 
@@ -635,8 +642,8 @@
 
 			// Add event listeners
 			if (o.toggleOn) {
-				if (o.toggleOn === 'click') {
-					el.container.style.cursor = 'pointer';
+				if (o.toggleOn === "click") {
+					el.container.style.cursor = "pointer";
 				}
 				listener(el.container, o.toggleOn, eventHandler);
 			}
@@ -659,7 +666,7 @@
 			createMeter();
 			// Start rendering
 			requestRender();
-		}());
+		})();
 	}
 
 	// Expose the extend function
@@ -670,58 +677,44 @@
 
 	// Default options
 	FPSMeter.defaults = {
-		interval:  100,     // Update interval in milliseconds.
-		smoothing: 10,      // Spike smoothing strength. 1 means no smoothing.
-		show:      'fps',   // Whether to show 'fps', or 'ms' = frame duration in milliseconds.
-		toggleOn:  'click', // Toggle between show 'fps' and 'ms' on this event.
-		decimals:  1,       // Number of decimals in FPS number. 1 = 59.9, 2 = 59.94, ...
-		maxFps:    60,      // Max expected FPS value.
-		threshold: 100,     // Minimal tick reporting interval in milliseconds.
+		interval: 100, // Update interval in milliseconds.
+		smoothing: 10, // Spike smoothing strength. 1 means no smoothing.
+		show: "fps", // Whether to show 'fps', or 'ms' = frame duration in milliseconds.
+		toggleOn: "click", // Toggle between show 'fps' and 'ms' on this event.
+		decimals: 1, // Number of decimals in FPS number. 1 = 59.9, 2 = 59.94, ...
+		maxFps: 60, // Max expected FPS value.
+		threshold: 100, // Minimal tick reporting interval in milliseconds.
 
 		// Meter position
-		position: 'absolute', // Meter position.
-		zIndex:   10,         // Meter Z index.
-		left:     '5px',      // Meter left offset.
-		top:      '5px',      // Meter top offset.
-		right:    'auto',     // Meter right offset.
-		bottom:   'auto',     // Meter bottom offset.
-		margin:   '0 0 0 0',  // Meter margin. Helps with centering the counter when left: 50%;
+		position: "absolute", // Meter position.
+		zIndex: 10, // Meter Z index.
+		left: "5px", // Meter left offset.
+		top: "5px", // Meter top offset.
+		right: "auto", // Meter right offset.
+		bottom: "auto", // Meter bottom offset.
+		margin: "0 0 0 0", // Meter margin. Helps with centering the counter when left: 50%;
 
 		// Theme
-		theme: 'dark', // Meter theme. Build in: 'dark', 'light', 'transparent', 'colorful'.
-		heat:  0,      // Allow themes to use coloring by FPS heat. 0 FPS = red, maxFps = green.
+		theme: "dark", // Meter theme. Build in: 'dark', 'light', 'transparent', 'colorful'.
+		heat: 0, // Allow themes to use coloring by FPS heat. 0 FPS = red, maxFps = green.
 
 		// Graph
-		graph:   0, // Whether to show history graph.
-		history: 20 // How many history states to show in a graph.
+		graph: 0, // Whether to show history graph.
+		history: 20, // How many history states to show in a graph.
 	};
 
 	// Option names that trigger FPSMeter rebuild or reposition when modified
-	var rebuilders = [
-		'toggleOn',
-		'theme',
-		'heat',
-		'graph',
-		'history'
-	];
-	var repositioners = [
-		'position',
-		'zIndex',
-		'left',
-		'top',
-		'right',
-		'bottom',
-		'margin'
-	];
-}(window));
-;(function (w, FPSMeter, undefined) {
-	'use strict';
+	var rebuilders = ["toggleOn", "theme", "heat", "graph", "history"];
+	var repositioners = ["position", "zIndex", "left", "top", "right", "bottom", "margin"];
+})(window);
+(function (w, FPSMeter, undefined) {
+	"use strict";
 
 	// Themes object
 	FPSMeter.theme = {};
 
 	// Base theme with layout, no colors
-	var base = FPSMeter.theme.base = {
+	var base = (FPSMeter.theme.base = {
 		heatmaps: [],
 		container: {
 			// Settings
@@ -729,12 +722,12 @@
 			heatmap: null,
 
 			// Styles
-			padding: '5px',
-			minWidth: '95px',
-			height: '30px',
-			lineHeight: '30px',
-			textAlign: 'right',
-			textShadow: 'none'
+			padding: "5px",
+			minWidth: "95px",
+			height: "30px",
+			lineHeight: "30px",
+			textAlign: "right",
+			textShadow: "none",
 		},
 		count: {
 			// Settings
@@ -742,14 +735,14 @@
 			heatmap: null,
 
 			// Styles
-			position: 'absolute',
+			position: "absolute",
 			top: 0,
 			right: 0,
-			padding: '5px 10px',
-			height: '30px',
-			fontSize: '24px',
-			fontFamily: 'Consolas, Andale Mono, monospace',
-			zIndex: 2
+			padding: "5px 10px",
+			height: "30px",
+			fontSize: "24px",
+			fontFamily: "Consolas, Andale Mono, monospace",
+			zIndex: 2,
 		},
 		legend: {
 			// Settings
@@ -757,16 +750,16 @@
 			heatmap: null,
 
 			// Styles
-			position: 'absolute',
+			position: "absolute",
 			top: 0,
 			left: 0,
-			padding: '5px 10px',
-			height: '30px',
-			fontSize: '12px',
-			lineHeight: '32px',
-			fontFamily: 'sans-serif',
-			textAlign: 'left',
-			zIndex: 2
+			padding: "5px 10px",
+			height: "30px",
+			fontSize: "12px",
+			lineHeight: "32px",
+			fontFamily: "sans-serif",
+			textAlign: "left",
+			zIndex: 2,
 		},
 		graph: {
 			// Settings
@@ -774,109 +767,117 @@
 			heatmap: null,
 
 			// Styles
-			position: 'relative',
-			boxSizing: 'padding-box',
-			MozBoxSizing: 'padding-box',
-			height: '100%',
-			zIndex: 1
+			position: "relative",
+			boxSizing: "padding-box",
+			MozBoxSizing: "padding-box",
+			height: "100%",
+			zIndex: 1,
 		},
 		column: {
 			// Settings
 			width: 4,
 			spacing: 1,
 			heatOn: null,
-			heatmap: null
-		}
-	};
+			heatmap: null,
+		},
+	});
 
 	// Dark theme
 	FPSMeter.theme.dark = FPSMeter.extend({}, base, {
-		heatmaps: [{
-			saturation: 0.8,
-			lightness: 0.8
-		}],
+		heatmaps: [
+			{
+				saturation: 0.8,
+				lightness: 0.8,
+			},
+		],
 		container: {
-			background: '#222',
-			color: '#fff',
-			border: '1px solid #1a1a1a',
-			textShadow: '1px 1px 0 #222'
+			background: "#222",
+			color: "#fff",
+			border: "1px solid #1a1a1a",
+			textShadow: "1px 1px 0 #222",
 		},
 		count: {
-			heatOn: 'color'
+			heatOn: "color",
 		},
 		column: {
-			background: '#3f3f3f'
-		}
+			background: "#3f3f3f",
+		},
 	});
 
 	// Light theme
 	FPSMeter.theme.light = FPSMeter.extend({}, base, {
-		heatmaps: [{
-			saturation: 0.5,
-			lightness: 0.5
-		}],
+		heatmaps: [
+			{
+				saturation: 0.5,
+				lightness: 0.5,
+			},
+		],
 		container: {
-			color: '#666',
-			background: '#fff',
-			textShadow: '1px 1px 0 rgba(255,255,255,.5), -1px -1px 0 rgba(255,255,255,.5)',
-			boxShadow: '0 0 0 1px rgba(0,0,0,.1)'
+			color: "#666",
+			background: "#fff",
+			textShadow: "1px 1px 0 rgba(255,255,255,.5), -1px -1px 0 rgba(255,255,255,.5)",
+			boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
 		},
 		count: {
-			heatOn: 'color'
+			heatOn: "color",
 		},
 		column: {
-			background: '#eaeaea'
-		}
+			background: "#eaeaea",
+		},
 	});
 
 	// Colorful theme
 	FPSMeter.theme.colorful = FPSMeter.extend({}, base, {
-		heatmaps: [{
-			saturation: 0.5,
-			lightness: 0.6
-		}],
+		heatmaps: [
+			{
+				saturation: 0.5,
+				lightness: 0.6,
+			},
+		],
 		container: {
-			heatOn: 'backgroundColor',
-			background: '#888',
-			color: '#fff',
-			textShadow: '1px 1px 0 rgba(0,0,0,.2)',
-			boxShadow: '0 0 0 1px rgba(0,0,0,.1)'
+			heatOn: "backgroundColor",
+			background: "#888",
+			color: "#fff",
+			textShadow: "1px 1px 0 rgba(0,0,0,.2)",
+			boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
 		},
 		column: {
-			background: '#777',
-			backgroundColor: 'rgba(0,0,0,.2)'
-		}
+			background: "#777",
+			backgroundColor: "rgba(0,0,0,.2)",
+		},
 	});
 
 	// Transparent theme
 	FPSMeter.theme.transparent = FPSMeter.extend({}, base, {
-		heatmaps: [{
-			saturation: 0.8,
-			lightness: 0.5
-		}],
+		heatmaps: [
+			{
+				saturation: 0.8,
+				lightness: 0.5,
+			},
+		],
 		container: {
 			padding: 0,
-			color: '#fff',
-			textShadow: '1px 1px 0 rgba(0,0,0,.5)'
+			color: "#fff",
+			textShadow: "1px 1px 0 rgba(0,0,0,.5)",
 		},
 		count: {
-			padding: '0 5px',
-			height: '40px',
-			lineHeight: '40px'
+			padding: "0 5px",
+			height: "40px",
+			lineHeight: "40px",
 		},
 		legend: {
-			padding: '0 5px',
-			height: '40px',
-			lineHeight: '42px'
+			padding: "0 5px",
+			height: "40px",
+			lineHeight: "42px",
 		},
 		graph: {
-			height: '40px'
+			height: "40px",
 		},
 		column: {
 			width: 5,
-			background: '#999',
-			heatOn: 'backgroundColor',
-			opacity: 0.5
-		}
+			background: "#999",
+			heatOn: "backgroundColor",
+			opacity: 0.5,
+		},
 	});
-}(window, FPSMeter));
+})(window, FPSMeter);
