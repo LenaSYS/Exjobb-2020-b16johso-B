@@ -86,34 +86,7 @@
 				scene.add(backLight);
 
 				/* Model */
-
-				var mtlLoader = new THREE.MTLLoader();
-				mtlLoader.setPath("assets/");
-				var url = "barone-exported.mtl";
-				mtlLoader.load(url, function (materials) {
-					materials.preload();
-
-					var objLoader = new THREE.OBJLoader();
-					objLoader.setMaterials(materials);
-					objLoader.setPath("assets/");
-					objLoader.load(
-						"barone-exported.obj",
-						function (object) {
-							object.scale.x = 0.2;
-							object.scale.y = 0.2;
-							object.scale.z = 0.2;
-							object.rotation.x = -90;
-							object.rotation.z = 90;
-							scene.add(object);
-						},
-						function (xhr) {
-							console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-						},
-						function (error) {
-							console.log("An error happened");
-						}
-					);
-				});
+				importModel();
 
 				/* Renderer */
 
@@ -174,6 +147,36 @@
 
 			function render() {
 				renderer.render(scene, camera);
+			}
+
+			function importModel() {
+				var mtlLoader = new THREE.MTLLoader();
+				mtlLoader.setPath("assets/");
+				var url = "barone-exported.mtl";
+				mtlLoader.load(url, function (materials) {
+					materials.preload();
+
+					var objLoader = new THREE.OBJLoader();
+					objLoader.setMaterials(materials);
+					objLoader.setPath("assets/");
+					objLoader.load(
+						"barone-exported.obj",
+						function (object) {
+							object.scale.x = 0.2;
+							object.scale.y = 0.2;
+							object.scale.z = 0.2;
+							object.rotation.x = -90;
+							object.rotation.z = 90;
+							scene.add(object);
+						},
+						function (xhr) {
+							console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+						},
+						function (error) {
+							console.log("An error happened");
+						}
+					);
+				});
 			}
 		</script>
 	</body>
