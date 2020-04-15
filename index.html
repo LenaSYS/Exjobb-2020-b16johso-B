@@ -150,6 +150,12 @@
 				renderer.render(scene, camera);
 			}
 
+			function onKeyboardEvent(e) {
+				if (e.code === "KeyI") {
+					importModel();
+				}
+			}
+
 			function importModel() {
 				var mtlLoader = new THREE.MTLLoader();
 				mtlLoader.setPath("assets/");
