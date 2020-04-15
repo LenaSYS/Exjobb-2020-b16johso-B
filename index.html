@@ -33,6 +33,7 @@
 	<body>
 		<div id="test"></div>
 		<button onclick="importModel()">Add model</button>
+		<button onclick="resetCamera()">Reset</button>
 
 		<script>
 			if (!THREE.WEBGL.isWebGLAvailable) {
@@ -177,6 +178,10 @@
 						}
 					);
 				});
+			}
+
+			function resetCamera() {
+				controls.reset();
 			}
 		</script>
 	</body>
